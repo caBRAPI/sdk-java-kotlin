@@ -14,55 +14,48 @@ public class CouponsModule {
         this.core = core;
     }
 
-    public GetCouponsResponse get(String storeId, GetCouponsRequest input) throws Exception {
+    public HttpResponse get(String storeId, GetCouponsRequest input) throws Exception {
         core.assertPrivate();
         Map<String, Object> params = new HashMap<>();
         if (input != null) {
             if (input.getPage() != null) params.put("page", input.getPage());
             if (input.getLimit() != null) params.put("limit", input.getLimit());
         }
-        HttpResponse res = core.getHttp().get("/stores/" + storeId + "/coupons", params.isEmpty() ? null : params);
-        return res.parse(GetCouponsResponse.class);
+        return core.getHttp().get("/stores/" + storeId + "/coupons", params.isEmpty() ? null : params);
     }
 
-    public GetCouponsResponse get(String storeId) throws Exception {
+    public HttpResponse get(String storeId) throws Exception {
         return get(storeId, null);
     }
 
-    public GetCouponByCodeResponse getByCode(String storeId, String code) throws Exception {
-        HttpResponse res = core.getHttp().get("/stores/" + storeId + "/coupons/" + code);
-        return res.parse(GetCouponByCodeResponse.class);
+    public HttpResponse getByCode(String storeId, String code) throws Exception {
+        return core.getHttp().get("/stores/" + storeId + "/coupons/" + code);
     }
 
-    public GetCouponByIdResponse getById(String storeId, String couponId) throws Exception {
+    public HttpResponse getById(String storeId, String couponId) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().get("/stores/" + storeId + "/coupons/uuid/" + couponId);
-        return res.parse(GetCouponByIdResponse.class);
+        return core.getHttp().get("/stores/" + storeId + "/coupons/uuid/" + couponId);
     }
 
-    public CreateCouponResponse create(String storeId, CreateCouponRequest input) throws Exception {
+    public HttpResponse create(String storeId, CreateCouponRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().post("/stores/" + storeId + "/coupons", input);
-        return res.parse(CreateCouponResponse.class);
+        return core.getHttp().post("/stores/" + storeId + "/coupons", input);
     }
 
-    public UpdateCouponResponse update(String storeId, String couponId, UpdateCouponRequest input) throws Exception {
+    public HttpResponse update(String storeId, String couponId, UpdateCouponRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().put("/stores/" + storeId + "/coupons/" + couponId, input);
-        return res.parse(UpdateCouponResponse.class);
+        return core.getHttp().put("/stores/" + storeId + "/coupons/" + couponId, input);
     }
 
-    public DeleteCouponResponse delete(String storeId, String couponId) throws Exception {
+    public HttpResponse delete(String storeId, String couponId) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().delete("/stores/" + storeId + "/coupons/" + couponId);
-        return res.parse(DeleteCouponResponse.class);
+        return core.getHttp().delete("/stores/" + storeId + "/coupons/" + couponId);
     }
 
-    public ReorderCouponsResponse reorder(String storeId, List<String> couponIds) throws Exception {
+    public HttpResponse reorder(String storeId, List<String> couponIds) throws Exception {
         core.assertPrivate();
         Map<String, Object> body = new HashMap<>();
         body.put("couponIds", couponIds);
-        HttpResponse res = core.getHttp().put("/stores/" + storeId + "/coupons/reorder", body);
-        return res.parse(ReorderCouponsResponse.class);
+        return core.getHttp().put("/stores/" + storeId + "/coupons/reorder", body);
     }
 }

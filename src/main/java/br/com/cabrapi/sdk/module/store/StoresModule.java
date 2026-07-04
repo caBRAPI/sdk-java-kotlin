@@ -14,50 +14,44 @@ public class StoresModule {
         this.core = core;
     }
 
-    public GetStoresResponse get(GetStoresRequest input) throws Exception {
+    public HttpResponse get(GetStoresRequest input) throws Exception {
         core.assertPrivate();
         Map<String, Object> params = new HashMap<>();
         if (input != null) {
             if (input.getPage() != null) params.put("page", input.getPage());
             if (input.getLimit() != null) params.put("limit", input.getLimit());
         }
-        HttpResponse res = core.getHttp().get("/stores", params.isEmpty() ? null : params);
-        return res.parse(GetStoresResponse.class);
+        return core.getHttp().get("/stores", params.isEmpty() ? null : params);
     }
 
-    public GetStoresResponse get() throws Exception {
+    public HttpResponse get() throws Exception {
         return get(null);
     }
 
-    public GetStoreByIdResponse getById(String storeId) throws Exception {
+    public HttpResponse getById(String storeId) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().get("/stores/" + storeId);
-        return res.parse(GetStoreByIdResponse.class);
+        return core.getHttp().get("/stores/" + storeId);
     }
 
-    public CreateStoreResponse create(CreateStoreRequest input) throws Exception {
+    public HttpResponse create(CreateStoreRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().post("/stores", input);
-        return res.parse(CreateStoreResponse.class);
+        return core.getHttp().post("/stores", input);
     }
 
-    public UpdateStoreResponse update(String storeId, UpdateStoreRequest input) throws Exception {
+    public HttpResponse update(String storeId, UpdateStoreRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().put("/stores/" + storeId, input);
-        return res.parse(UpdateStoreResponse.class);
+        return core.getHttp().put("/stores/" + storeId, input);
     }
 
-    public DeleteStoreResponse delete(String storeId) throws Exception {
+    public HttpResponse delete(String storeId) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().delete("/stores/" + storeId);
-        return res.parse(DeleteStoreResponse.class);
+        return core.getHttp().delete("/stores/" + storeId);
     }
 
-    public ReorderStoresResponse reorder(List<String> storeIds) throws Exception {
+    public HttpResponse reorder(List<String> storeIds) throws Exception {
         core.assertPrivate();
         Map<String, Object> body = new HashMap<>();
         body.put("storeIds", storeIds);
-        HttpResponse res = core.getHttp().put("/stores/reorder", body);
-        return res.parse(ReorderStoresResponse.class);
+        return core.getHttp().put("/stores/reorder", body);
     }
 }

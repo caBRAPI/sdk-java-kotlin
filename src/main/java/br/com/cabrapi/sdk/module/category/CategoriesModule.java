@@ -14,48 +14,42 @@ public class CategoriesModule {
         this.core = core;
     }
 
-    public GetCategoriesResponse get(String storeId, GetCategoriesRequest input) throws Exception {
+    public HttpResponse get(String storeId, GetCategoriesRequest input) throws Exception {
         Map<String, Object> params = new HashMap<>();
         if (input != null) {
             if (input.getPage() != null) params.put("page", input.getPage());
             if (input.getLimit() != null) params.put("limit", input.getLimit());
         }
-        HttpResponse res = core.getHttp().get("/stores/" + storeId + "/categories", params.isEmpty() ? null : params);
-        return res.parse(GetCategoriesResponse.class);
+        return core.getHttp().get("/stores/" + storeId + "/categories", params.isEmpty() ? null : params);
     }
 
-    public GetCategoriesResponse get(String storeId) throws Exception {
+    public HttpResponse get(String storeId) throws Exception {
         return get(storeId, null);
     }
 
-    public GetCategoryByIdResponse getById(String storeId, String categoryId) throws Exception {
-        HttpResponse res = core.getHttp().get("/stores/" + storeId + "/categories/" + categoryId);
-        return res.parse(GetCategoryByIdResponse.class);
+    public HttpResponse getById(String storeId, String categoryId) throws Exception {
+        return core.getHttp().get("/stores/" + storeId + "/categories/" + categoryId);
     }
 
-    public CreateCategoryResponse create(String storeId, CreateCategoryRequest input) throws Exception {
+    public HttpResponse create(String storeId, CreateCategoryRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().post("/stores/" + storeId + "/categories", input);
-        return res.parse(CreateCategoryResponse.class);
+        return core.getHttp().post("/stores/" + storeId + "/categories", input);
     }
 
-    public UpdateCategoryResponse update(String storeId, String categoryId, UpdateCategoryRequest input) throws Exception {
+    public HttpResponse update(String storeId, String categoryId, UpdateCategoryRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().put("/stores/" + storeId + "/categories/" + categoryId, input);
-        return res.parse(UpdateCategoryResponse.class);
+        return core.getHttp().put("/stores/" + storeId + "/categories/" + categoryId, input);
     }
 
-    public DeleteCategoryResponse delete(String storeId, String categoryId) throws Exception {
+    public HttpResponse delete(String storeId, String categoryId) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().delete("/stores/" + storeId + "/categories/" + categoryId);
-        return res.parse(DeleteCategoryResponse.class);
+        return core.getHttp().delete("/stores/" + storeId + "/categories/" + categoryId);
     }
 
-    public ReorderCategoriesResponse reorder(String storeId, List<String> categoryIds) throws Exception {
+    public HttpResponse reorder(String storeId, List<String> categoryIds) throws Exception {
         core.assertPrivate();
         Map<String, Object> body = new HashMap<>();
         body.put("categoryIds", categoryIds);
-        HttpResponse res = core.getHttp().put("/stores/" + storeId + "/categories/reorder", body);
-        return res.parse(ReorderCategoriesResponse.class);
+        return core.getHttp().put("/stores/" + storeId + "/categories/reorder", body);
     }
 }

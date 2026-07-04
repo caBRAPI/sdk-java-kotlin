@@ -22,22 +22,19 @@ public class WebhooksModule {
         this.core = core;
     }
 
-    public GetWebhooksResponse get(String storeId) throws Exception {
+    public HttpResponse get(String storeId) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().get("/stores/" + storeId + "/webhooks");
-        return res.parse(GetWebhooksResponse.class);
+        return core.getHttp().get("/stores/" + storeId + "/webhooks");
     }
 
-    public CreateWebhookResponse create(String storeId, CreateWebhookRequest input) throws Exception {
+    public HttpResponse create(String storeId, CreateWebhookRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().post("/stores/" + storeId + "/webhooks", input);
-        return res.parse(CreateWebhookResponse.class);
+        return core.getHttp().post("/stores/" + storeId + "/webhooks", input);
     }
 
-    public DeleteWebhookResponse delete(String storeId, DeleteWebhookRequest input) throws Exception {
+    public HttpResponse delete(String storeId, DeleteWebhookRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().delete("/stores/" + storeId + "/webhooks", input);
-        return res.parse(DeleteWebhookResponse.class);
+        return core.getHttp().delete("/stores/" + storeId + "/webhooks", input);
     }
 
     @SuppressWarnings("unchecked")

@@ -12,24 +12,17 @@ public class PagesModule {
         this.core = core;
     }
 
-    public Page get(String domain) throws Exception {
-        HttpResponse res = core.getHttp().get("/pages/" + domain);
-        GetPageResponse parsed = res.parse(GetPageResponse.class);
-        if (parsed == null || parsed.getData() == null) {
-            throw new RuntimeException("Page not found: " + domain);
-        }
-        return parsed.getData();
+    public HttpResponse get(String domain) throws Exception {
+        return core.getHttp().get("/pages/" + domain);
     }
 
-    public UpsertPageResponse upsert(UpsertPageRequest input) throws Exception {
+    public HttpResponse upsert(UpsertPageRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().put("/pages/" + input.getDomain(), input);
-        return res.parse(UpsertPageResponse.class);
+        return core.getHttp().put("/pages/" + input.getDomain(), input);
     }
 
-    public DeletePageResponse delete(String domain) throws Exception {
+    public HttpResponse delete(String domain) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().delete("/pages/" + domain);
-        return res.parse(DeletePageResponse.class);
+        return core.getHttp().delete("/pages/" + domain);
     }
 }

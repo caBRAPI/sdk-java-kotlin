@@ -14,22 +14,21 @@ public class PaymentsModule {
         this.core = core;
     }
 
-    public GetPaymentsResponse get(String storeId, GetPaymentsRequest input) throws Exception {
+    public HttpResponse get(String storeId, GetPaymentsRequest input) throws Exception {
         core.assertPrivate();
         Map<String, Object> params = new HashMap<>();
         if (input != null) {
             if (input.getPage() != null) params.put("page", input.getPage());
             if (input.getLimit() != null) params.put("limit", input.getLimit());
         }
-        HttpResponse res = core.getHttp().get("/stores/" + storeId + "/payments", params.isEmpty() ? null : params);
-        return res.parse(GetPaymentsResponse.class);
+        return core.getHttp().get("/stores/" + storeId + "/payments", params.isEmpty() ? null : params);
     }
 
-    public GetPaymentsResponse get(String storeId) throws Exception {
+    public HttpResponse get(String storeId) throws Exception {
         return get(storeId, null);
     }
 
-    public FilterPaymentsResponse filter(String storeId, FilterPaymentsRequest input) throws Exception {
+    public HttpResponse filter(String storeId, FilterPaymentsRequest input) throws Exception {
         core.assertPrivate();
         Map<String, Object> params = new HashMap<>();
         if (input != null) {
@@ -57,25 +56,21 @@ public class PaymentsModule {
             putIf(params, "page", input.getPage());
             putIf(params, "limit", input.getLimit());
         }
-        HttpResponse res = core.getHttp().get("/stores/" + storeId + "/payments/filter", params.isEmpty() ? null : params);
-        return res.parse(FilterPaymentsResponse.class);
+        return core.getHttp().get("/stores/" + storeId + "/payments/filter", params.isEmpty() ? null : params);
     }
 
-    public CreatePaymentResponse create(String storeId, CreatePaymentRequest input) throws Exception {
-        HttpResponse res = core.getHttp().post("/stores/" + storeId + "/payments", input);
-        return res.parse(CreatePaymentResponse.class);
+    public HttpResponse create(String storeId, CreatePaymentRequest input) throws Exception {
+        return core.getHttp().post("/stores/" + storeId + "/payments", input);
     }
 
-    public UpdatePaymentResponse update(String storeId, String paymentId, UpdatePaymentRequest input) throws Exception {
+    public HttpResponse update(String storeId, String paymentId, UpdatePaymentRequest input) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().put("/stores/" + storeId + "/payments/" + paymentId, input);
-        return res.parse(UpdatePaymentResponse.class);
+        return core.getHttp().put("/stores/" + storeId + "/payments/" + paymentId, input);
     }
 
-    public DeletePaymentResponse delete(String storeId, String paymentId) throws Exception {
+    public HttpResponse delete(String storeId, String paymentId) throws Exception {
         core.assertPrivate();
-        HttpResponse res = core.getHttp().delete("/stores/" + storeId + "/payments/" + paymentId);
-        return res.parse(DeletePaymentResponse.class);
+        return core.getHttp().delete("/stores/" + storeId + "/payments/" + paymentId);
     }
 
     private void putIf(Map<String, Object> map, String key, Object value) {

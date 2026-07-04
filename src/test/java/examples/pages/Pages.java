@@ -2,37 +2,49 @@ package examples.pages;
 
 import br.com.cabrapi.sdk.caBRAPI;
 import br.com.cabrapi.sdk.client.CoreClient;
+import br.com.cabrapi.sdk.client.HttpClient.HttpResponse;
 import br.com.cabrapi.sdk.model.page.*;
 
-/**
- * Example demonstrating how to use the Pages module.
- * <p>
- * Covers get (public), upsert, and delete:
- * <ul>
- *   <li>{@code GET /pages/:domain} (public)</li>
- *   <li>{@code UPSERT /pages/:domain}</li>
- *   <li>{@code DELETE /pages/:domain}</li>
- * </ul>
- */
 public class Pages {
-    public static void main(String[] args) throws Exception {
-        caBRAPI api = new caBRAPI(new CoreClient.Options(CoreClient.Mode.PRIVATE)
+
+    static caBRAPI server() {
+        return new caBRAPI(new CoreClient.Options(CoreClient.Mode.PRIVATE)
             .apiKey(System.getenv("CABRAPI_KEY")));
+    }
+
+    static caBRAPI client() {
+        return new caBRAPI(new CoreClient.Options(CoreClient.Mode.PUBLIC));
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        // ──────────────────────────────────────────────
+        // CLIENT-SIDE (publico)
+        // ──────────────────────────────────────────────
+
+        caBRAPI pub = client();
 
         // GET /pages/:domain (public)
-        Page page = api.pages().get("testando-web.cabrapi.com.br");
-        System.out.println("Pagina: " + page.getDomain());
+        HttpResponse page = pub.pages().get("theme-light-shop.cabrapi.com.br");
+        System.out.println("GET /pages/:domain (public): " + page.getBody());
 
-        // UPSERT /pages/:domain
+        // ──────────────────────────────────────────────
+        // SERVER-SIDE (requer API key)
+        // ──────────────────────────────────────────────
+
+        caBRAPI api = server();
+
+        // PUT /pages/:domain (upsert)
         UpsertPageRequest upsertReq = new UpsertPageRequest(
-            "testando-web.cabrapi.com.br",
-            "<!DOCTYPE html><html><body><h1>Minha Pagina</h1></body></html>");
-        upsertReq.setTemplate("DEFAULT");
-        UpsertPageResponse upserted = api.pages().upsert(upsertReq);
-        System.out.println("Upsert: " + upserted.isStatus());
+            "theme-light-shop.cabrapi.com.br",
+            "<html><body><h1>Minha Loja</h1></body></html>"
+        );
+        upsertReq.setTemplate("theme-light-shop");
+        HttpResponse upserted = api.pages().upsert(upsertReq);
+        System.out.println("PUT /pages/:domain (upsert): " + upserted.getBody());
 
         // DELETE /pages/:domain
-        DeletePageResponse deleted = api.pages().delete("testando-web.cabrapi.com.br");
-        System.out.println("Deletado: " + deleted.isStatus());
+        HttpResponse deleted = api.pages().delete("theme-light-shop.cabrapi.com.br");
+        System.out.println("DELETE /pages/:domain: " + deleted.getBody());
     }
 }
