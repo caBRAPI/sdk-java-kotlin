@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>br.com.cabrapi</groupId>
-    <artifactId>cabrapi-sdk</artifactId>
+    <artifactId>sdk-java-kotlin</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>caBRAPI SDK Java</name>
-    <description>SDK oficial da caBRAPI para Java</description>
+    <name>caBRAPI SDK</name>
+    <description>SDK oficial da caBRAPI para Java e Kotlin</description>
     <url>https://cabrapi.com.br</url>
 
     <licenses>
@@ -31,7 +31,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/caBRAPI/cabrapi-sdk</url>
+            <url>https://maven.pkg.github.com/caBRAPI/sdk-java-kotlin</url>
         </repository>
     </distributionManagement>
 

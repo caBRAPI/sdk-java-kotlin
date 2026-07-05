@@ -49,7 +49,7 @@ Antes de adicionar a dependência ao projeto, configure o repositório Maven uti
 
 <dependency>
     <groupId>br.com.cabrapi</groupId>
-    <artifactId>cabrapi-sdk</artifactId>
+    <artifactId>sdk-java-kotlin</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -72,7 +72,7 @@ repositories {
 }
 
 dependencies {
-    implementation("br.com.cabrapi:cabrapi-sdk:1.0.0")
+    implementation("br.com.cabrapi:sdk-java-kotlin:1.0.0")
 }
 ```
 
