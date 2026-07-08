@@ -234,15 +234,20 @@ public class Json {
         if (value == null) return null;
 
         if (clazz == String.class) return (T) value.toString();
-        if (clazz == int.class || clazz == Integer.class) return (T) Integer.valueOf(((Number) value).intValue());
-        if (clazz == long.class || clazz == Long.class) return (T) Long.valueOf(((Number) value).longValue());
-        if (clazz == double.class || clazz == Double.class) return (T) Double.valueOf(((Number) value).doubleValue());
+        if (clazz == int.class || clazz == Integer.class) return (T) toInteger(value);
+        if (clazz == long.class || clazz == Long.class) return (T) toLong(value);
+        if (clazz == double.class || clazz == Double.class) return (T) toDouble(value);
         if (clazz == boolean.class || clazz == Boolean.class) return (T) value;
         if (clazz == LocalDateTime.class) return (T) LocalDateTime.parse(value.toString(), ISO_FORMAT);
         if (Enum.class.isAssignableFrom(clazz)) return (T) Enum.valueOf((Class<Enum>) clazz, value.toString());
 
         if (value instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) value;
+
+            if (Map.class.isAssignableFrom(clazz)) {
+                return (T) map;
+            }
+
             T instance;
             try {
                 instance = clazz.getDeclaredConstructor().newInstance();
@@ -293,6 +298,24 @@ public class Json {
         }
 
         return (T) value;
+    }
+
+    private static Integer toInteger(Object value) {
+        if (value instanceof Number) return ((Number) value).intValue();
+        if (value instanceof String) return Integer.parseInt((String) value);
+        throw new ClassCastException("Cannot cast " + value.getClass().getName() + " to Integer");
+    }
+
+    private static Long toLong(Object value) {
+        if (value instanceof Number) return ((Number) value).longValue();
+        if (value instanceof String) return Long.parseLong((String) value);
+        throw new ClassCastException("Cannot cast " + value.getClass().getName() + " to Long");
+    }
+
+    private static Double toDouble(Object value) {
+        if (value instanceof Number) return ((Number) value).doubleValue();
+        if (value instanceof String) return Double.parseDouble((String) value);
+        throw new ClassCastException("Cannot cast " + value.getClass().getName() + " to Double");
     }
 
     private static String escape(String s) {
