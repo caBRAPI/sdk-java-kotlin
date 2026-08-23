@@ -33,7 +33,7 @@ public class Payments {
         createReq.setName("Joao Silva");
         createReq.setEmail("joao@email.com");
         createReq.setCpf("12345678909");
-        createReq.setGateway(PaymentCreateGateway.MERCADOPAGO_SERVICE_PIX);
+        createReq.setGateway(PaymentCreateGateway.MERCADOPAGO_ORDER_PIX);
         createReq.setCoupon("BEMVINDO10");
         createReq.setItems(Arrays.asList(new CreatePaymentItem("c6f0d28a-8ce2-4a8f-9771-4df1f2a7f3a1", 1)));
         HttpResponse created = pub.payments().create(storeId, createReq);
