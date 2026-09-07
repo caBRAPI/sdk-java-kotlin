@@ -171,7 +171,21 @@ CreatePaymentResponse payment =
         new CreatePaymentRequest()
             .name("João Silva")
             .email("joao@email.com")
-            .gateway(PaymentCreateGateway.MERCADOPAGO_SERVICE_PIX)
+            .gateway(PaymentCreateGateway.MERCADOPAGO_ORDER_PIX)
+    );
+```
+
+Também é possível utilizar a Asaas como gateway de pagamento:
+
+```java
+// Criar pagamento via Asaas (PIX)
+CreatePaymentResponse payment =
+    api.payments().create(
+        "store-id",
+        new CreatePaymentRequest()
+            .name("João Silva")
+            .email("joao@email.com")
+            .gateway(PaymentCreateGateway.ASAAS_ORDER_PIX)
     );
 ```
 
