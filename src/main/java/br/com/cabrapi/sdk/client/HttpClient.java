@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class HttpClient {
 
-    public static final String DEFAULT_BASE_URL = "https://api.cabrapi.com.br";
+    public static final String DEFAULT_BASE_URL = "https://api.cabrapi.com.br/v1";
     public static final int DEFAULT_TIMEOUT = 30000;
 
     private final String baseURL;
