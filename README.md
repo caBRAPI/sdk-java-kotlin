@@ -1,27 +1,27 @@
-# ☕ SDK da caBRAPI para Java e Kotlin
+# ☕ caBRAPI SDK for Java and Kotlin
 
-SDK oficial da **caBRAPI** para **Java** e **Kotlin**.
+Official SDK of **caBRAPI** for **Java** and **Kotlin**.
 
-O SDK fornece uma interface moderna, unificada e fortemente tipada para integração com todos os serviços da plataforma. Projetado para aplicações cliente e servidor, ele reduz a complexidade da integração, aumenta a segurança e oferece uma experiência de desenvolvimento consistente.
+The SDK provides a modern, unified, and strongly typed interface for integration with all platform services. Designed for client and server applications, it reduces integration complexity, increases security, and provides a consistent development experience.
 
-## 📚 Índice
+## 📚 Table of Contents
 
-* [Instalação](#-instalação)
-* [Primeiros passos](#-primeiros-passos)
-* [Modos de autenticação](#-modos-de-autenticação)
-* [Configuração](#-configuração)
-* [Módulos disponíveis](#-módulos-disponíveis)
-* [Requisitos](#-requisitos)
-* [Compilação](#-compilação)
-* [Licença](#-licença)
+* [Installation](#-installation)
+* [Getting Started](#-getting-started)
+* [Authentication Modes](#-authentication-modes)
+* [Configuration](#-configuration)
+* [Available Modules](#-available-modules)
+* [Requirements](#-requirements)
+* [Build](#-build)
+* [License](#-license)
 
 ---
 
-# 📦 Instalação
+# 📦 Installation
 
-O SDK é distribuído por meio do **GitHub Packages**.
+The SDK is distributed through **GitHub Packages**.
 
-Antes de adicionar a dependência ao projeto, configure o repositório Maven utilizando um **Personal Access Token** do GitHub com a permissão `read:packages`.
+Before adding the dependency to your project, configure the Maven repository using a GitHub **Personal Access Token** with the `read:packages` permission.
 
 ## Maven
 
@@ -31,7 +31,7 @@ Antes de adicionar a dependência ao projeto, configure o repositório Maven uti
 <servers>
     <server>
         <id>github</id>
-        <username>SEU_USUARIO_GITHUB</username>
+        <username>YOUR_GITHUB_USERNAME</username>
         <password>${env.GITHUB_TOKEN}</password>
     </server>
 </servers>
@@ -78,9 +78,9 @@ dependencies {
 
 ---
 
-# 🚀 Primeiros passos
+# 🚀 Getting Started
 
-## Aplicação servidor (`PRIVATE`)
+## Server application (`PRIVATE`)
 
 ```java
 import br.com.cabrapi.sdk.caBRAPI;
@@ -88,11 +88,11 @@ import br.com.cabrapi.sdk.client.CoreClient;
 
 caBRAPI api = new caBRAPI(
     new CoreClient.Options(CoreClient.Mode.PRIVATE)
-        .apiKey("SUA_API_KEY")
+        .apiKey("YOUR_API_KEY")
 );
 ```
 
-## Aplicação cliente (`PUBLIC`)
+## Client application (`PUBLIC`)
 
 ```java
 import br.com.cabrapi.sdk.caBRAPI;
@@ -105,22 +105,22 @@ caBRAPI api = new caBRAPI(
 
 ---
 
-# 🔐 Modos de autenticação
+# 🔐 Authentication Modes
 
-O SDK oferece dois modos de autenticação, permitindo sua utilização tanto em aplicações cliente quanto em aplicações servidor.
+The SDK offers two authentication modes, allowing it to be used in both client and server applications.
 
-| Modo      | Indicado para                                                    |
-| --------- | ---------------------------------------------------------------- |
-| `PUBLIC`  | Aplicações cliente que não utilizam chave de API.                |
-| `PRIVATE` | Aplicações servidor que utilizam chave de API para autenticação. |
+| Mode      | Recommended for                                                     |
+| --------- | ------------------------------------------------------------------- |
+| `PUBLIC`  | Client applications that do not use an API key.                      |
+| `PRIVATE` | Server applications that use an API key for authentication.         |
 
 ---
 
-# 💻 Exemplos de uso
+# 💻 Usage Examples
 
-## 🔒 Aplicação servidor (`PRIVATE`)
+## 🔒 Server application (`PRIVATE`)
 
-Ideal para operações administrativas e acesso protegido aos recursos da API.
+Ideal for administrative operations and protected access to API resources.
 
 ```java
 import br.com.cabrapi.sdk.caBRAPI;
@@ -129,116 +129,116 @@ import br.com.cabrapi.sdk.model.store.*;
 
 caBRAPI api = new caBRAPI(
     new CoreClient.Options(CoreClient.Mode.PRIVATE)
-        .apiKey("SUA_API_KEY")
+        .apiKey("YOUR_API_KEY")
 );
 
-// Listar lojas
+// List stores
 GetStoresResponse stores =
     api.stores().get(new GetStoresRequest(1, 10));
 
-// Buscar uma loja
+// Get a store
 GetStoreByIdResponse store =
     api.stores().getById("store-id");
 
-// Criar uma loja
+// Create a store
 CreateStoreResponse created =
     api.stores().create(
         new CreateStoreRequest(StoreTemplate.PERSONALIZADO)
-            .name("Minha Loja")
+            .name("My Store")
     );
 ```
 
-## 🌐 Aplicação cliente (`PUBLIC`)
+## 🌐 Client application (`PUBLIC`)
 
-Ideal para aplicações web, desktop e dispositivos móveis.
+Ideal for web, desktop, and mobile applications.
 
 ```java
 caBRAPI api = new caBRAPI(
     new CoreClient.Options(CoreClient.Mode.PUBLIC)
 );
 
-// Listar produtos
+// List products
 GetProductsResponse products =
     api.products().get(
         "store-id",
         new GetProductsRequest(1, 20)
     );
 
-// Criar pagamento
+// Create payment
 CreatePaymentResponse payment =
     api.payments().create(
         "store-id",
         new CreatePaymentRequest()
-            .name("João Silva")
-            .email("joao@email.com")
+            .name("John Doe")
+            .email("john@email.com")
             .gateway(PaymentCreateGateway.MERCADOPAGO_ORDER_PIX)
     );
 ```
 
-Também é possível utilizar a Asaas como gateway de pagamento:
+It is also possible to use Asaas as a payment gateway:
 
 ```java
-// Criar pagamento via Asaas (PIX)
+// Create payment via Asaas (PIX)
 CreatePaymentResponse payment =
     api.payments().create(
         "store-id",
         new CreatePaymentRequest()
-            .name("João Silva")
-            .email("joao@email.com")
+            .name("John Doe")
+            .email("john@email.com")
             .gateway(PaymentCreateGateway.ASAAS_ORDER_PIX)
     );
 ```
 
 ---
 
-# ⚙️ Configuração
+# ⚙️ Configuration
 
 ## `CoreClient.Options`
 
-| Propriedade | Tipo              |        Obrigatório       | Descrição                                                 |
-| ----------- | ----------------- | :----------------------: | --------------------------------------------------------- |
-| `mode`      | `CoreClient.Mode` |             ✅            | Define o modo de autenticação (`PUBLIC` ou `PRIVATE`).    |
-| `apiKey`    | `String`          | Apenas no modo `PRIVATE` | Chave de API utilizada para autenticação das requisições. |
+| Property | Type              |        Required        | Description                                                  |
+| -------- | ----------------- | :--------------------: | ------------------------------------------------------------ |
+| `mode`   | `CoreClient.Mode` |             ✅          | Defines the authentication mode (`PUBLIC` or `PRIVATE`).      |
+| `apiKey` | `String`          | Only in `PRIVATE` mode | API key used to authenticate requests.                       |
 
 ---
 
-# 📦 Módulos disponíveis
+# 📦 Available Modules
 
-| Módulo        | Classe             |
+| Module        | Class              |
 | ------------- | ------------------ |
-| 🏪 Lojas      | `StoresModule`     |
-| 📦 Produtos   | `ProductsModule`   |
-| 📁 Categorias | `CategoriesModule` |
-| 🎫 Cupons     | `CouponsModule`    |
-| 💳 Pagamentos | `PaymentsModule`   |
-| 📄 Páginas    | `PagesModule`      |
+| 🏪 Stores     | `StoresModule`     |
+| 📦 Products   | `ProductsModule`   |
+| 📁 Categories | `CategoriesModule` |
+| 🎫 Coupons    | `CouponsModule`    |
+| 💳 Payments   | `PaymentsModule`   |
+| 📄 Pages      | `PagesModule`      |
 | 🔗 Webhooks   | `WebhooksModule`   |
 
 ---
 
-# ☕ Requisitos
+# ☕ Requirements
 
-| Tecnologia | Versão            |
+| Technology | Version           |
 | ---------- | ----------------- |
-| Java       | **8 ou superior** |
+| Java       | **8 or higher**   |
 
 ---
 
-# 🔨 Compilação
+# 🔨 Build
 
-Clone o repositório:
+Clone the repository:
 
 ```bash
 git clone https://github.com/caBRAPI/sdk-java-kotlin.git
 ```
 
-Acesse o diretório do projeto:
+Access the project directory:
 
 ```bash
 cd sdk-java-kotlin
 ```
 
-Compile o SDK:
+Build the SDK:
 
 ```bash
 mvn clean install
@@ -246,6 +246,6 @@ mvn clean install
 
 ---
 
-# 📄 Licença
+# 📄 License
 
-Este projeto é distribuído sob a licença **Apache License 2.0**.
+This project is distributed under the **Apache License 2.0** license.
