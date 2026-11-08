@@ -41,13 +41,6 @@ public class CoreClient {
             options.getApiKey(),
             HttpClient.DEFAULT_TIMEOUT
         );
-        validate(options);
-    }
-
-    private void validate(Options options) {
-        if (mode == Mode.PRIVATE && (options.getApiKey() == null || options.getApiKey().isEmpty())) {
-            throw new IllegalArgumentException("API key é obrigatória no modo PRIVATE.");
-        }
     }
 
     public boolean isPrivate() {
