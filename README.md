@@ -1,4 +1,4 @@
-# ☕ caBRAPI SDK for Java and Kotlin
+# @caBRAPI/sdk-java-kotlin
 
 Official SDK of **caBRAPI** for **Java** and **Kotlin**.
 
